@@ -1,0 +1,27 @@
+# Python
+*.py[cod]
+__pycache__/
+*.so
+
+# Virtual Environment
+venv/
+.env/
+
+# FastAPI
+*.log
+*.db
+*.sqlite3
+
+# Pytest
+.cache/
+.tox/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
