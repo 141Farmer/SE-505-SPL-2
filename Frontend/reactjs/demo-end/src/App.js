@@ -1,12 +1,24 @@
-import React from 'react';
+// App.js
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './pages/authentication/login';
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <h1>Hello, It's my first React App!</h1>
-       <h2>Happy Coding!!</h2>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {/* Redirect root to login */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        
+        {/* Auth routes */}
+        <Route path="/login" element={<LoginPage />} />
+        
+        {/* Add other routes here */}
+        <Route path="/consumer/*" element={<ConsumerRoutes />} />
+        <Route path="/farm/*" element={<FarmRoutes />} />
+        <Route path="/investor/*" element={<InvestorRoutes />} />
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;

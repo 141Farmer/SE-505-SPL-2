@@ -38,3 +38,5 @@ const InvestorLogin = () => {
             </div>
           );
         };
+
+export default InvestorLogin;

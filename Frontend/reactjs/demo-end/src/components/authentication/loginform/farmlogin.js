@@ -38,4 +38,6 @@ const FarmLogin = () => {
             </div>
           );
         };
+
+export default FarmLogin;
         

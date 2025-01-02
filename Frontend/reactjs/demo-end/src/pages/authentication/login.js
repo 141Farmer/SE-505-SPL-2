@@ -1,3 +1,9 @@
+import React, { useState } from 'react';
+import ConsumerLogin from '../../components/authentication/loginform/consumerlogin';
+import FarmLogin from '../../components/authentication/loginform/farmlogin';
+import InvestorLogin from '../../components/authentication/loginform/investorlogin';
+
+
 const LoginPage = () => {
           const [userType, setUserType] = useState('consumer');
           

@@ -26,3 +26,5 @@ const ConsumerLogin = () => {
             </div>
           );
         };
+
+export default ConsumerLogin;
