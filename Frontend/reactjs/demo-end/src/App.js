@@ -1,4 +1,5 @@
 // App.js
+import React  from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/authentication/login';
 
@@ -7,15 +8,17 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Redirect root to login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<LoginPage />} />
         
         {/* Auth routes */}
-        <Route path="/login" element={<LoginPage />} />
+        
+        
         
         {/* Add other routes here */}
-        <Route path="/consumer/*" element={<ConsumerRoutes />} />
+        {/*<Route path="/consumer/*" element={<ConsumerRoutes />} />
         <Route path="/farm/*" element={<FarmRoutes />} />
         <Route path="/investor/*" element={<InvestorRoutes />} />
+        */}
       </Routes>
     </BrowserRouter>
   );
