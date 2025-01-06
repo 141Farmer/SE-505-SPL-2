@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import Input from '../../common/input';
 import Button from '../../common/button';
 
-const ConsumerLogin = () => {
-          const [formData, setFormData] = useState({
+const ConsumerLogin=()=>{
+          const [formData,setFormData]=useState({
             email: '',
             password: ''
           });
