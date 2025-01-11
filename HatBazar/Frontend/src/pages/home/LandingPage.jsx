@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar/Navbar';
-import Hero from '../components/HeroSection';
-import Features from '../components/Features/FeaturesSection';
-import ContractSection from '../components/ContractSection';
-import Stats from '../components/States/StatsSection';
-import Footer from '../components/Footer';
+import Navbar from '../../components/Navbar/Navbar';
+import Hero from '../../components/HeroSection';
+import Features from '../../components/Features/FeaturesSection';
+import ContractSection from '../../components/ContractSection';
+import Stats from '../../components/States/StatsSection';
+import Footer from '../../components/Footer';
 import { 
   ChevronRight, 
   ShoppingCart, 

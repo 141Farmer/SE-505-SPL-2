@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Leaf, Menu, X } from 'lucide-react';
 import DesktopMenu from './DesktopMenu';
 import MobileMenu from './MobileMenu';
+import Forum from '../../pages/community/Forum.jsx';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,7 +10,7 @@ const Navbar = () => {
   const navItems = [
     { name: 'Market', href: '#market' },
     { name: 'Invest', href: '#invest' },
-    { name: 'Community', href: '#community' },
+    { name: 'Community', href: '#Forum' },
     { name: 'Contract', href: '#contract' },
   ];
 
