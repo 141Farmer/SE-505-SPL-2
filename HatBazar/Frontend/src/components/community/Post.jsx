@@ -1,14 +1,51 @@
 import React, { useState } from 'react';
 
 function ForumPost({ post }) {
-  const [upvotes, setUpvotes] = useState(0);
-  const [downvotes, setDownvotes] = useState(0);
+  const [isUpvoted, setIsUpvoted] = useState(false);
+  const [isDownvoted, setIsDownvoted] = useState(false);
+  const [upvoteCount, setUpvoteCount] = useState(0);
+  const [downvoteCount, setDownvoteCount] = useState(0);
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState(post.comments || []);
 
-  const handleUpvote = () => setUpvotes(upvotes + 1);
-  const handleDownvote = () => setDownvotes(downvotes + 1);
+  const handleUpvote = () => {
+    if (isUpvoted) {
+      // Remove upvote
+      setUpvoteCount(upvoteCount - 1);
+      setIsUpvoted(false);
+    }
+    else if (!isUpvoted && isDownvoted) {
+      setUpvoteCount(upvoteCount + 1);
+      setIsUpvoted(true);
+      setDownvoteCount(downvoteCount - 1);
+      setIsDownvoted(false);
+    }
+    else {
+      // Add upvote
+      setUpvoteCount(upvoteCount + 1);
+      setIsUpvoted(true);
+    }
+  };
+
+  const handleDownvote = () => {
+    if (isDownvoted) {
+      // Remove downvote
+      setDownvoteCount(downvoteCount - 1);
+      setIsDownvoted(false);
+    } 
+    else if (isUpvoted && !isDownvoted) {
+      setDownvoteCount(downvoteCount + 1);
+      setIsDownvoted(true);
+      setUpvoteCount(upvoteCount - 1);
+      setIsUpvoted(false);
+    }else {
+      // Add downvote
+      setDownvoteCount(downvoteCount + 1);
+      setIsDownvoted(true);
+      
+    }
+  };
 
   const toggleComments = () => setShowComments(!showComments);
 
@@ -20,19 +57,37 @@ function ForumPost({ post }) {
   };
 
   return (
-    <div className="border rounded-lg p-6 bg-white shadow-md transition-all duration-300 hover:shadow-lg">
-      <h2 className="text-2xl font-semibold text-green-800 mb-2">{post.title}</h2>
-      <p className="text-gray-700 mb-4">{post.content}</p>
+    <div className="border rounded-lg p-6 bg-black shadow-md transition-all duration-300 hover:shadow-lg">
+      {/* User and Date Info */}
+      <div className="flex justify-between items-center mb-3">
+        <span className="text-violet-400 font-medium">Posted by {post.user}</span>
+        <span className="text-gray-400">{post.date}</span>
+      </div>
 
-      {/* Upvote and Downvote Buttons */}
+      <h2 className="text-2xl font-semibold text-white mb-2">{post.title}</h2>
+      <p className="text-white mb-4">{post.content}</p>
+      
+      {/* Voting Buttons */}
       <div className="flex items-center space-x-4 mt-4">
-        <button onClick={handleUpvote} className="text-green-700 font-semibold">
-          Upvote ({upvotes})
+        <button 
+          onClick={handleUpvote} 
+          className={`font-semibold ${
+            isUpvoted ? 'text-violet-400' : 'text-violet-600'
+          }`}
+        >
+          {isUpvoted ? '★ Upvoted' : '☆ Upvote'} ({upvoteCount})
         </button>
-        <button onClick={handleDownvote} className="text-red-700 font-semibold">
-          Downvote ({downvotes})
+
+        <button 
+          onClick={handleDownvote} 
+          className={`font-semibold ${
+            isDownvoted ? 'text-red-400' : 'text-red-600'
+          }`}
+        >
+          {isDownvoted ? '★ Downvoted' : '☆ Downvote'} ({downvoteCount})
         </button>
-        <button onClick={toggleComments} className="text-blue-700 font-semibold">
+
+        <button onClick={toggleComments} className="text-cyan-600 font-semibold">
           {showComments ? 'Hide Comments' : 'Show Comments'}
         </button>
       </div>
@@ -40,7 +95,7 @@ function ForumPost({ post }) {
       {/* Comments Section */}
       {showComments && (
         <div className="mt-4">
-          <h3 className="text-lg font-bold mb-2">Comments</h3>
+          <h3 className="text-lg font-bold mb-2 text-white">Comments</h3>
           {comments.length > 0 ? (
             comments.map((comment, index) => (
               <div key={index} className="p-2 border rounded mb-2 bg-gray-100">
@@ -50,7 +105,7 @@ function ForumPost({ post }) {
           ) : (
             <p className="text-gray-500">No comments yet.</p>
           )}
-
+          
           {/* Add Comment */}
           <div className="flex mt-4 space-x-2">
             <input

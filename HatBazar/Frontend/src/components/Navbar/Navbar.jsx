@@ -10,8 +10,12 @@ const Navbar = () => {
   const navItems = [
     { name: 'Market', href: '#market' },
     { name: 'Invest', href: '#invest' },
-    { name: 'Community', href: '#Forum' },
+    { name: 'Community', href: '#community' },
     { name: 'Contract', href: '#contract' },
+    //{ name: 'Community', path: '/forum' },
+
+    // section id or route path for linking
+
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
