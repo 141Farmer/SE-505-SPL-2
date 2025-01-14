@@ -57,15 +57,15 @@ function ForumPost({ post }) {
   };
 
   return (
-    <div className="border rounded-lg p-6 bg-black shadow-md transition-all duration-300 hover:shadow-lg">
+    <div className="border rounded-lg p-6 bg-white shadow-md transition-all duration-300 hover:shadow-lg">
       {/* User and Date Info */}
       <div className="flex justify-between items-center mb-3">
         <span className="text-violet-400 font-medium">Posted by {post.user}</span>
         <span className="text-gray-400">{post.date}</span>
       </div>
 
-      <h2 className="text-2xl font-semibold text-white mb-2">{post.title}</h2>
-      <p className="text-white mb-4">{post.content}</p>
+      <h2 className="text-2xl font-semibold text-black mb-2">{post.title}</h2>
+      <p className="text-black mb-4">{post.content}</p>
       
       {/* Voting Buttons */}
       <div className="flex items-center space-x-4 mt-4">
