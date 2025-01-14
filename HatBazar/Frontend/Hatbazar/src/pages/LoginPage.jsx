@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, Phone, AlertCircle, Leaf } from 'lucide-react';
+import { Mail, Lock, User, Phone, AlertCircle, Leaf, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const Card = ({ children, className = '' }) => (
-  <div className={`bg-white rounded-lg shadow-lg p-6 ${className}`}>
+const Card = ({ children, className = '', onClose }) => (
+  <div className={`bg-white rounded-lg shadow-lg p-6 relative ${className}`}>
+    {onClose && (
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 transition-colors"
+        aria-label="Close"
+      >
+        <X className="h-5 w-5 text-gray-500" />
+      </button>
+    )}
     {children}
   </div>
 );
-
 const Input = ({ icon: Icon, ...props }) => (
   <div className="relative">
     {Icon && <Icon className="absolute left-3 top-3 h-4 w-4 text-green-600" />}
@@ -49,12 +57,13 @@ const Select = ({ options, value, onChange, placeholder }) => (
 
 const LoginPage = () => {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   });
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -64,7 +73,10 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-green-100 to-green-50 p-4">
       <div className="w-full max-w-md">
-        <Card className="backdrop-blur-sm bg-white/90">
+        <Card 
+          className="backdrop-blur-sm bg-white/90"
+          onClose={() => navigate('/')}
+        >
           <div className="text-center mb-6">
             <div className="flex justify-center mb-4">
               <Leaf className="h-12 w-12 text-green-600" />

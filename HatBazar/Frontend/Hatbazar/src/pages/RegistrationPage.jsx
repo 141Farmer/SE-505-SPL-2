@@ -1,7 +1,23 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, Phone, AlertCircle, Leaf } from 'lucide-react';
+import { Mail, Lock, User, Phone, AlertCircle, Leaf, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Input, Button, Select } from './LoginPage';
+import { Input, Button } from './LoginPage';
+
+// Card component with animated close button
+const Card = ({ children, className = '', onClose }) => (
+  <div className={`bg-white rounded-lg shadow-lg p-6 relative ${className}`}>
+    {onClose && (
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 transition-colors"
+        aria-label="Close"
+      >
+        <X className="h-5 w-5 text-gray-500" />
+      </button>
+    )}
+    {children}
+  </div>
+);
 
 const RegistrationPage = () => {
     const navigate = useNavigate();
@@ -9,7 +25,6 @@ const RegistrationPage = () => {
     const [formData, setFormData] = useState({
       username: '',
       fullname: '',
-      // accountType: '',
       email: '',
       phoneNumber: '',
       password: '',
@@ -18,19 +33,11 @@ const RegistrationPage = () => {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
   
-    const accountTypes = [
-      { value: 'farmer', label: 'Organic Farmer' },
-      { value: 'buyer', label: 'Buyer' },
-      { value: 'investor', label: 'Agricultural Investor' },
-      { value: 'supplier', label: 'Equipment Supplier' }
-    ];
-  
     const handleRegister = async (e) => {
       e.preventDefault();
       setError('');
       setIsLoading(true);
 
-      // Validate passwords match
       if (formData.password !== formData.confirmPassword) {
         setError('Passwords do not match');
         setIsLoading(false);
@@ -55,12 +62,11 @@ const RegistrationPage = () => {
         const data = await response.json();
         console.log(data.output);
 
-        // if (!response.ok) {
-        //   throw new Error(data.message || 'Registration failed');
-        // }
+        if (!response.ok) {
+          throw new Error(data.message || 'Registration failed');
+        }
 
-        // Registration successful
-        navigate('/login'); // Redirect to login page
+        navigate('/');
       } catch (err) {
         setError(err.message || 'Failed to register. Please try again.');
       } finally {
@@ -71,7 +77,10 @@ const RegistrationPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-green-100 to-green-50 p-4 py-12">
         <div className="w-full max-w-md">
-          <Card className="backdrop-blur-sm bg-white/90">
+          <Card 
+            className="backdrop-blur-sm bg-white/90"
+            onClose={() => navigate('/')}
+          >
             <div className="text-center mb-6">
               <div className="flex justify-center mb-4">
                 <Leaf className="h-12 w-12 text-green-600" />
@@ -155,7 +164,6 @@ const RegistrationPage = () => {
                 />
               </div>
 
-              {/* Display an error message if passwords don't match */}
               {formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword && (
                   <div className="bg-red-50 text-red-600 p-3 rounded-md flex items-center gap-2">
                       <AlertCircle className="h-4 w-4" />
