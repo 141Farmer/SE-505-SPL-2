@@ -1,0 +1,84 @@
+# Python specific ignores
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# Virtual environment
+env/
+venv/
+.venv/
+
+# Environment variables
+.env
+.env.*
+
+# FastAPI and dependency caches
+*.log
+*.pid
+*.seed
+*.bak
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Test outputs
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# Static/media files
+staticfiles/
+mediafiles/
+
+# Migrations
+migrations/
+*/migrations/
+*.pyc
+
+# Temporary files
+*.tmp
+*.temp
+*.out
+*.log
+
+# Docker specific
+docker-compose.override.yml
+*.tar
+*.img
+
+# Node.js (if using for frontend assets)
+node_modules/
+
+# Backup files
+*.bak
+*.old
+*.orig
+*.save
+
+# Ignore all compiled files
+*.so
+*.o
+*.a
+
+# Ignore gunicorn and uvicorn logs
+*.access.log
+*.error.log

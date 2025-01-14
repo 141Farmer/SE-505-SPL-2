@@ -8,13 +8,15 @@ const RegistrationPage = () => {
 
     const [formData, setFormData] = useState({
       username: '',
-      fullName: '',
-      accountType: '',
+      fullname: '',
+      // accountType: '',
       email: '',
       phoneNumber: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     });
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
   
     const accountTypes = [
       { value: 'farmer', label: 'Organic Farmer' },
@@ -23,9 +25,47 @@ const RegistrationPage = () => {
       { value: 'supplier', label: 'Equipment Supplier' }
     ];
   
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
       e.preventDefault();
-      console.log('Registration attempt:', formData);
+      setError('');
+      setIsLoading(true);
+
+      // Validate passwords match
+      if (formData.password !== formData.confirmPassword) {
+        setError('Passwords do not match');
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch('http://127.0.0.1:8000/signup/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            fullname: formData.fullname,
+            email: formData.email,
+            phoneNumber: formData.phoneNumber,
+            password: formData.password,
+          }),
+        });
+
+        const data = await response.json();
+        console.log(data.output);
+
+        // if (!response.ok) {
+        //   throw new Error(data.message || 'Registration failed');
+        // }
+
+        // Registration successful
+        navigate('/login'); // Redirect to login page
+      } catch (err) {
+        setError(err.message || 'Failed to register. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
     };
   
     return (
@@ -61,22 +101,11 @@ const RegistrationPage = () => {
                   icon={User}
                   type="text"
                   placeholder="Enter your full name"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  value={formData.fullname}
+                  onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
                   required
                 />
               </div>
-  
-              {/* <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Account Type</label>
-                <Select
-                  options={accountTypes}
-                  value={formData.accountType}
-                  onChange={(e) => setFormData({ ...formData, accountType: e.target.value })}
-                  placeholder="Select your role"
-                  required
-                />
-              </div> */}
   
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">Email</label>
@@ -142,7 +171,9 @@ const RegistrationPage = () => {
               )}
   
               <div className="space-y-4">
-                <Button type="submit">Create Account</Button>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? 'Creating Account...' : 'Create Account'}
+                </Button>
   
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
@@ -194,4 +225,3 @@ const RegistrationPage = () => {
 };
 
 export default RegistrationPage;
-  
