@@ -11,35 +11,44 @@ import {
   ChevronDown,
   Sprout,
   Calendar,
-  Sun
+  Sun,
+  Mail,
+  Phone,
 } from 'lucide-react';
 
 const Dashboard = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const farmerData = {
-    name: "Sarah Greene",
-    email: "sarah.greene@organicfarms.com",
-    membershipType: "Certified Organic Farmer",
-    orders: [
-      { id: 1, date: "2025-01-08", item: "Organic Seeds - Tomato", status: "Delivered" },
-      { id: 2, date: "2025-01-05", item: "Bio-Fertilizer Pack", status: "In Transit" },
-      { id: 3, date: "2025-01-01", item: "Organic Pest Control", status: "Processing" }
-    ],
-    activeOrders: [
-      { id: 4, date: "2025-01-10", item: "Composting Kit", status: "Processing" },
-      { id: 5, date: "2025-01-09", item: "Soil Testing Kit", status: "In Transit" }
-    ],
-    notifications: [
-      { id: 1, message: "New organic certification workshop next week!", time: "2 hours ago" },
-      { id: 2, message: "Seasonal growing guide updated", time: "1 day ago" }
-    ],
-    cropReviews: [
-      { id: 1, rating: 5, comment: "Excellent yield from organic tomatoes!", date: "2025-01-07" },
-      { id: 2, rating: 4, comment: "Bio-fertilizer improved soil health significantly", date: "2025-01-03" }
-    ],
-    seasonalTips: "Current Season: Winter - Focus on soil preparation and greenhouse cultivation"
-  };
+  const userInfoCard = {
+    fullname: "Md. Kibria Hossen Roni",
+    username: "kibria30",
+    email: "kibria8007@gmail.com",
+    phoneNumber: "+8801727396969",
+  }
+
+  // const farmerData = {
+  //   name: "Sarah Greene",
+  //   email: "sarah.greene@organicfarms.com",
+  //   membershipType: "Certified Organic Farmer",
+  //   orders: [
+  //     { id: 1, date: "2025-01-08", item: "Organic Seeds - Tomato", status: "Delivered" },
+  //     { id: 2, date: "2025-01-05", item: "Bio-Fertilizer Pack", status: "In Transit" },
+  //     { id: 3, date: "2025-01-01", item: "Organic Pest Control", status: "Processing" }
+  //   ],
+  //   activeOrders: [
+  //     { id: 4, date: "2025-01-10", item: "Composting Kit", status: "Processing" },
+  //     { id: 5, date: "2025-01-09", item: "Soil Testing Kit", status: "In Transit" }
+  //   ],
+  //   notifications: [
+  //     { id: 1, message: "New organic certification workshop next week!", time: "2 hours ago" },
+  //     { id: 2, message: "Seasonal growing guide updated", time: "1 day ago" }
+  //   ],
+  //   cropReviews: [
+  //     { id: 1, rating: 5, comment: "Excellent yield from organic tomatoes!", date: "2025-01-07" },
+  //     { id: 2, rating: 4, comment: "Bio-fertilizer improved soil health significantly", date: "2025-01-03" }
+  //   ],
+  //   seasonalTips: "Current Season: Winter - Focus on soil preparation and greenhouse cultivation"
+  // };
 
   const handleLogout = () => {
     // Add logout logic here
@@ -58,7 +67,7 @@ const Dashboard = () => {
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-3">
             <Leaf className="h-8 w-8 text-green-600" />
-            <h1 className="text-2xl font-bold text-green-800">Organic Farmer Dashboard</h1>
+            <h1 className="text-2xl font-bold text-green-800">User Dashboard</h1>
           </div>
           
           {/* Custom Dropdown */}
@@ -96,11 +105,11 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Seasonal Tips Banner */}
+        {/* Seasonal Tips Banner
         <div className="bg-green-100 p-4 rounded-lg mb-6 flex items-center gap-3">
           <Sun className="h-6 w-6 text-green-600" />
-          <p className="text-green-800 font-medium">{farmerData.seasonalTips}</p>
-        </div>
+          <p className="text-green-800 font-medium">Current Season: Winter - Focus on soil preparation and greenhouse cultivation</p>
+        </div> */}
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -113,32 +122,32 @@ const Dashboard = () => {
                         className="w-20 h-20 rounded-full border-2 border-green-600"
                     />
                     <div>
-                        <h2 className="text-2xl font-semibold text-green-800">{farmerData.name}</h2>
-                        <p className="text-gray-600">{farmerData.email}</p>
+                        <h2 className="text-2xl font-semibold text-green-800">{userInfoCard.fullname}</h2>
+                        <p className="text-gray-600">{userInfoCard.username}</p>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <p className="flex items-center gap-2 text-green-700">
+                    {/* <p className="flex items-center gap-2 text-green-700">
                         <Sprout className="h-5 w-5" />
                         Membership Type: <span className="font-medium">{farmerData.membershipType}</span>
-                    </p>
-                    <p className="flex items-center gap-2 text-green-700">
+                    </p> */}
+                    {/* <p className="flex items-center gap-2 text-green-700">
                         <Calendar className="h-5 w-5" />
                         Joined Date: <span className="font-medium">2023-03-15</span>
+                    </p> */}
+                    <p className="flex items-center gap-2 text-green-700">
+                        <Phone className="h-5 w-5" />
+                        Phone: <span className="font-medium">{userInfoCard.phoneNumber}</span>
                     </p>
                     <p className="flex items-center gap-2 text-green-700">
-                        <FileText className="h-5 w-5" />
-                        Phone: <span className="font-medium">+1 (555) 123-4567</span>
-                    </p>
-                    <p className="flex items-center gap-2 text-green-700">
-                        <FileText className="h-5 w-5" />
-                        Address: <span className="font-medium">123 Green Lane, Farmville, USA</span>
+                        <Mail className="h-5 w-5" />
+                        Email: <span className="font-medium">{userInfoCard.email}</span>
                     </p>
                 </div>
             </div>
         </div>
 
-          {/* Order History */}
+          {/* Order History
           <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
             <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-green-800">
               <History className="h-5 w-5" />
@@ -152,10 +161,10 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Active Orders */}
-          <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
+          {/* <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
             <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-green-800">
               <Package className="h-5 w-5" />
               Track Orders
@@ -168,10 +177,10 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Notifications */}
-          <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
+          {/* <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
             <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-green-800">
               <Bell className="h-5 w-5" />
               Farm Updates
@@ -184,10 +193,10 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Reviews and Feedback */}
-          <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100 md:col-span-2">
+          {/* <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100 md:col-span-2">
             <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-green-800">
               <Star className="h-5 w-5" />
               Crop Reviews & Feedback
@@ -205,7 +214,7 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>    
   );

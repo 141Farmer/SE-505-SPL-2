@@ -65,9 +65,61 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store user data in localStorage if needed
+        if (data.username) {
+          localStorage.setItem('username', data.username);
+        }
+        
+        // You might want to store any token if provided
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+        }
+
+        // Navigate to home page
+        navigate('/');
+      } else {
+        // Handle different types of errors
+        if (data.detail) {
+          setError(Array.isArray(data.detail) 
+            ? data.detail[0]?.msg || 'Login failed'
+            : data.detail);
+        } else if (typeof data === 'string') {
+          setError(data);
+        } else {
+          setError('Invalid username or password');
+        }
+      }
+    } catch (err) {
+      if (err.message === 'Failed to fetch') {
+        setError('Unable to connect to the server. Please check if the server is running.');
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
