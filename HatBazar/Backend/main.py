@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from sqlmodel import Session, select
 from database import engine, create_db_and_tables
 from models import User
-from schemas import UserCreate, UserAdded, UserLogin, LoginResponse
+from schemas import UserCreate, UserAdded, UserLogin, LoginResponse, DashBoardResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -45,6 +45,12 @@ def login(userLogin: UserLogin):
         if db_user.password != userLogin.password:
             raise HTTPException(status_code=401, detail="Incorrect password!")
         
-        return LoginResponse(msg="Login successful", fullname=db_user.fullname)
+        return LoginResponse(msg="Login successful", username=db_user.username)
 
+@app.get("/dashboard/", response_model=DashBoardResponse)
+def getDashBoard(username: str):
+    with Session(engine) as session:
+        query = select(User).where(User.username==username)
+        db_user = session.exec(query).first()
 
+        return DashBoardResponse(username=db_user.username, fullname=db_user.fullname, email=db_user.email, phone=db_user.phone)

@@ -16,4 +16,10 @@ class UserLogin(BaseModel):
 
 class LoginResponse(BaseModel):
     msg: str
+    username: str
+
+class DashBoardResponse(BaseModel):
+    username: str
     fullname: str
+    email: str
+    phone: str
