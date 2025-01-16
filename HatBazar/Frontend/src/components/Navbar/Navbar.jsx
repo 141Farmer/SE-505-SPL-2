@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import { Leaf, Menu, X } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 import DesktopMenu from './DesktopMenu';
 import MobileMenu from './MobileMenu';
-import Forum from '../../pages/community/Forum.jsx';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { name: 'Market', href: '#market' },
-    { name: 'Invest', href: '#invest' },
-    { name: 'Community', href: '#community' },
-    { name: 'Contract', href: '#contract' },
-    //{ name: 'Community', path: '/forum' },
-
-    // section id or route path for linking
-
+    { name: 'Home', path: '/' },
+    { name: 'Market', path: '/market' },
+    { name: 'Invest', path: '/invest' },
+    { name: 'Community', path: '/forum' },
+    { name: 'Contract', path: '/contract' },
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -34,8 +31,8 @@ const Navbar = () => {
 
         {/* Mobile Menu Toggle */}
         <div className="md:hidden">
-          <button 
-            onClick={toggleMenu} 
+          <button
+            onClick={toggleMenu}
             className="text-green-700 hover:text-green-900"
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -44,7 +41,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <MobileMenu isOpen={isMenuOpen} navItems={navItems} onClose={toggleMenu} />
+      {isMenuOpen && <MobileMenu navItems={navItems} onClose={toggleMenu} />}
     </nav>
   );
 };
