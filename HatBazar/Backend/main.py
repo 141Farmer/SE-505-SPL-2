@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from sqlmodel import Session, select
 from database import engine, create_db_and_tables
-from models import User
+from models import User, Investor, Farm, Product
 from schemas import UserCreate, UserAdded, UserLogin, LoginResponse, DashBoardResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -54,3 +54,5 @@ def getDashBoard(username: str):
         db_user = session.exec(query).first()
 
         return DashBoardResponse(username=db_user.username, fullname=db_user.fullname, email=db_user.email, phone=db_user.phone)
+
+# @app.post("/createfarmprofile/", response_model=)

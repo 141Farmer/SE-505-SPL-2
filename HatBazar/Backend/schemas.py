@@ -23,3 +23,10 @@ class DashBoardResponse(BaseModel):
     fullname: str
     email: str
     phone: str
+
+class CreateFarmProfile(BaseModel):
+    user_id: int
+    address: str
+    nid: str
+    farm_description: str
+    employee_count: int
