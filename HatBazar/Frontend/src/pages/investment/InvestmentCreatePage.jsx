@@ -1,24 +1,12 @@
 import React, { useState } from 'react';
-import BrowseOffers from '../../components/investment/BrowseOffers';
 import CreateOfferPage from '../../components/investment/CreateOfferPage';
 import Navbar from '../../components/Navbar/Navbar';
 import SubNavbar from '../../components/SubNavbar/SubNavbar';
 
-function InvestmentPage() {
+function InvestmentCreatePage() {
   const [currentTab, setCurrentTab] = useState("browse");
   const [offers, setOffers] = useState([]);
  
-  const [activeOffers] = useState([
-    {
-      id: 1,
-      poster: "John Doe",
-      principle: 10000,
-      duration: 12,
-      profitRate: 15,
-      details: "Looking for investment in tech startup",
-      negotiations: []
-    }
-  ]);
 
   const handleCreateOffer = (newOffer) => {
     const offer = {
@@ -34,38 +22,10 @@ function InvestmentPage() {
     setCurrentTab("browse");
   };
 
-  const handleNegotiate = (offerId) => {
-    const newNegotiation = {
-      id: Date.now(),
-      proposedPrinciple: 8000,
-      proposedDuration: 10,
-      proposedRate: 12,
-      negotiator: "Jane Smith"
-    };
-   
-    setOffers(offers.map(offer =>
-      offer.id === offerId
-        ? { ...offer, negotiations: [...offer.negotiations, newNegotiation] }
-        : offer
-    ));
-  };
-
   const renderContent = () => {
-    switch (currentTab) {
-      case "browse":
-        return (
-          <BrowseOffers
-            offers={offers}
-            activeOffers={activeOffers}
-            onNegotiate={handleNegotiate}
-          />
-        );
-      case "create":
         return <CreateOfferPage onCreateOffer={handleCreateOffer} />;
-      default:
-        return null;
+      
     }
-  };
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -90,4 +50,4 @@ function InvestmentPage() {
 
 }
 
-export default InvestmentPage;
+export default InvestmentCreatePage;

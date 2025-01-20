@@ -4,7 +4,9 @@ import LandingPage from "./pages/home/LandingPage";
 import { LoginPage } from "./pages/authentication/LoginPage";
 import RegistrationPage from "./pages/authentication/RegistrationPage";
 import Dashboard from "./pages/user/DashboardPage";
-import InvestmentPage from "./pages/investment/InvestmentPage";
+import InvestmentPage from "./pages/investment/investmentPage";
+import InvestmentCreatePage from "./pages/investment/InvestmentCreatePage";
+import InvestmentOfferPage from "./pages/investment/InvestmentOfferPage";
 import Forum from "./pages/community/Forum";
 import ContractSection from "./components/ContractSection";
 
@@ -20,6 +22,8 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/invest" element={<InvestmentPage />} />
+        <Route path="/investcreate" element={<InvestmentCreatePage />} />
+        <Route path="/investoffer" element={<InvestmentOfferPage />} />
         <Route path="/contract" element={<ContractSection />} />
       </Routes>
     </Router>
