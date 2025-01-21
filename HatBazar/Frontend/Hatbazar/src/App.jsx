@@ -5,6 +5,7 @@ import RegistrationPage from "./pages/RegistrationPage";
 import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/DashboardPage";
 import MarketPlace from "./pages/MarketplacePage";
+import Forum from "./pages/CommunityPage";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/marketplace" element={<MarketPlace />} />
+        <Route path="/community" element={<Forum />} />
       </Routes>
     </Router>
   );
