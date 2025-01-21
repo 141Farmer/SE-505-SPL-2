@@ -3,7 +3,9 @@ from sqlmodel import Session, select
 from database import engine, create_db_and_tables
 from models import User, Investor, Farm, Product
 from schemas import UserCreate, UserAdded, UserLogin, LoginResponse, DashBoardResponse
+from schemas import CreateFarm, CreateFarmResponse, FarmUpdate
 from fastapi.middleware.cors import CORSMiddleware
+# from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -55,4 +57,46 @@ def getDashBoard(username: str):
 
         return DashBoardResponse(username=db_user.username, fullname=db_user.fullname, email=db_user.email, phone=db_user.phone)
 
-# @app.post("/createfarmprofile/", response_model=)
+@app.post("/createfarm/", response_model=CreateFarmResponse)
+def createFarm(createFarm: CreateFarm):
+    with Session(engine) as session:
+        db_farm = Farm(user_id=createFarm.user_id)
+        session.add(db_farm)
+        session.commit()
+        session.refresh(db_farm)
+        return CreateFarmResponse(msg="Success", user_id=createFarm.user_id)
+    
+
+@app.get("/getfarm/{farm_id}")
+def get_farm(farm_id: int):
+    with Session(engine) as session:
+        query = select(Farm).where(Farm.id == farm_id)
+        farm = session.exec(query).first()
+        return farm
+    
+
+
+
+
+
+@app.put("/updatefarm/{farm_id}")
+def update_farm(farm_id: int, farm_update: FarmUpdate):
+    with Session(engine) as session:
+        farm = session.get(Farm, farm_id)
+        if not farm:
+            raise HTTPException(status_code=404, detail="Farm not found")
+        
+        if farm_update.address is not None:
+            farm.address = farm_update.address
+        if farm_update.nid is not None:
+            farm.nid = farm_update.nid
+        if farm_update.farm_description is not None:
+            farm.farm_description = farm_update.farm_description
+        if farm_update.employee_count is not None:
+            farm.employee_count = farm_update.employee_count
+
+        session.add(farm)
+        session.commit()
+        session.refresh(farm)
+        return farm
+

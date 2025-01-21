@@ -24,8 +24,14 @@ class DashBoardResponse(BaseModel):
     email: str
     phone: str
 
-class CreateFarmProfile(BaseModel):
+class CreateFarm(BaseModel):
+    user_id: int 
+
+class CreateFarmResponse(BaseModel):
+    msg: str
     user_id: int
+
+class FarmUpdate(BaseModel):
     address: str
     nid: str
     farm_description: str
