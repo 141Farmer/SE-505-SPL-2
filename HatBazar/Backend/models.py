@@ -21,7 +21,6 @@ class Investor(SQLModel, table=True):
     nid: str | None
     updated_at: datetime = Field(default=datetime.now(timezone.utc))
 
-    
 class Farm(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: int | None = Field(foreign_key="user.id")
@@ -44,7 +43,7 @@ class Product(SQLModel, table=True):
     unit_price: float | None
     rating: float | None
     stock_amount: int | None
-    production_produre: str | None
+    production_procedure: str | None
 
     farm: Farm | None = Relationship(back_populates="products")
     
