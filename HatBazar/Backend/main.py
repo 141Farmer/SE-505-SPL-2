@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from sqlmodel import Session, select
 from database import engine, create_db_and_tables
 from models import User, Investor, Farm, Product
@@ -7,6 +7,9 @@ from schemas import CreateFarm, CreateFarmResponse, FarmUpdate
 from schemas import CreateProduct, CreateProductResponse, GetProductResponse
 from fastapi.middleware.cors import CORSMiddleware
 # from pydantic import BaseModel
+from jwt_handler import create_access_token, decode_access_token, get_password_hash, verify_password
+from current_user_handler import get_current_user
+
 
 app = FastAPI()
 
@@ -29,7 +32,8 @@ create_db_and_tables()
 
 @app.post("/signup/", response_model=UserAdded)
 def signup(user: UserCreate):
-    user = User(username=user.username, fullname=user.fullname, email=user.email, phone=user.phoneNumber, password=user.password)
+    hashed_password = get_password_hash(user.password)
+    user = User(username=user.username, fullname=user.fullname, email=user.email, phone=user.phoneNumber, hashed_password=hashed_password)
     with Session(engine) as session:
         session.add(user)
         session.commit()
@@ -45,18 +49,25 @@ def login(userLogin: UserLogin):
         if not db_user:
             raise HTTPException(status_code=404, detail="User not found!")
         
-        if db_user.password != userLogin.password:
+        # if db_user.password != userLogin.password:
+        #     raise HTTPException(status_code=401, detail="Incorrect password!")
+
+        if not verify_password(userLogin.password, db_user.hashed_password):
             raise HTTPException(status_code=401, detail="Incorrect password!")
         
-        return LoginResponse(msg="Login successful", username=db_user.username)
+        access_token = create_access_token(data={"sub": db_user.username})
+
+        return LoginResponse(access_token=access_token, token_type="bearer")
 
 @app.get("/dashboard/", response_model=DashBoardResponse)
-def getDashBoard(username: str):
-    with Session(engine) as session:
-        query = select(User).where(User.username==username)
-        db_user = session.exec(query).first()
+def getDashBoard(current_user: User = Depends(get_current_user)):
+    # with Session(engine) as session:
+    #     query = select(User).where(User.username==username)
+    #     db_user = session.exec(query).first()
 
-        return DashBoardResponse(username=db_user.username, fullname=db_user.fullname, email=db_user.email, phone=db_user.phone)
+    #     return DashBoardResponse(username=db_user.username, fullname=db_user.fullname, email=db_user.email, phone=db_user.phone)
+    return DashBoardResponse(username=current_user.username, fullname=current_user.fullname, email=current_user.email, phone=current_user.phone)
+
 
 @app.post("/createfarm/", response_model=CreateFarmResponse)
 def createFarm(createFarm: CreateFarm):

@@ -9,7 +9,7 @@ class User(SQLModel, table=True):
     profile_photo: str | None
     phone: str = Field(sa_column_kwargs={"unique": True})
     email: str = Field(sa_column_kwargs={"unique": True})
-    password: str
+    hashed_password: str
     updated_at: datetime = Field(default=datetime.now(timezone.utc))
 
     def __repr__(self):

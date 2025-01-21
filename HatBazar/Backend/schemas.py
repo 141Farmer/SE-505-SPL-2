@@ -15,8 +15,8 @@ class UserLogin(BaseModel):
     password: str
 
 class LoginResponse(BaseModel):
-    msg: str
-    username: str
+    access_token: str
+    token_type: str = "bearer"
 
 class DashBoardResponse(BaseModel):
     username: str
