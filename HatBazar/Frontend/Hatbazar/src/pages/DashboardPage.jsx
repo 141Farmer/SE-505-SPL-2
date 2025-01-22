@@ -67,74 +67,95 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-green-50 p-8">
-      {/* <Navbar/> */}
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center gap-3">
-            <Leaf className="h-8 w-8 text-green-600" />
-            <h1 className="text-2xl font-bold text-green-800">User Dashboard</h1>
-          </div>
-          
-          {/* Dropdown */}
-          <div className="relative">
-            <button 
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-2 p-2 rounded-lg hover:bg-green-100 focus:outline-none"
-            >
-              <img
-                src="/api/placeholder/32/32"
-                alt="Profile"
-                className="w-8 h-8 rounded-full border-2 border-green-600"
-              />
-              <ChevronDown size={16} className="text-green-700" />
-            </button>
-            
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200">
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Logout
-                </button>
-                <button
-                  onClick={handleDeleteAccount}
-                  className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100"
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Delete Account
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+    <div className="min-h-screen bg-green-50">
+      {/* Add the Navbar component here */}
+      <Navbar />
 
-        {/* Profile Card */}
-        <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
-          <div className="flex items-center gap-4 mb-6">
-            <img
-              src="/api/placeholder/64/64"
-              alt="Profile"
-              className="w-20 h-20 rounded-full border-2 border-green-600"
-            />
-            <div>
-              <h2 className="text-2xl font-semibold text-green-800">{userInfoCard.fullname}</h2>
-              <p className="text-gray-600">{userInfoCard.username}</p>
+      <div className="p-8">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex items-center gap-3">
+              <Leaf className="h-8 w-8 text-green-600" />
+              <h1 className="text-2xl font-bold text-green-800">User Dashboard</h1>
+            </div>
+            
+            {/* Dropdown */}
+            <div className="relative">
+              <button 
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-green-100 focus:outline-none"
+              >
+                <img
+                  src="/api/placeholder/32/32"
+                  alt="Profile"
+                  className="w-8 h-8 rounded-full border-2 border-green-600"
+                />
+                <ChevronDown size={16} className="text-green-700" />
+              </button>
+              
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200">
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </button>
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100"
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete Account
+                  </button>
+                </div>
+              )}
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <p className="flex items-center gap-2 text-green-700">
-              <Phone className="h-5 w-5" />
-              Phone: <span className="font-medium">{userInfoCard.phone}</span>
-            </p>
-            <p className="flex items-center gap-2 text-green-700">
-              <Mail className="h-5 w-5" />
-              Email: <span className="font-medium">{userInfoCard.email}</span>
-            </p>
+
+          {/* Profile Card */}
+          <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
+            <div className="flex items-center gap-4 mb-6">
+              <img
+                src="/api/placeholder/64/64"
+                alt="Profile"
+                className="w-20 h-20 rounded-full border-2 border-green-600"
+              />
+              <div>
+                <h2 className="text-2xl font-semibold text-green-800">{userInfoCard.fullname}</h2>
+                <p className="text-gray-600">{userInfoCard.username}</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <p className="flex items-center gap-2 text-green-700">
+                <Phone className="h-5 w-5" />
+                Phone: <span className="font-medium">{userInfoCard.phone}</span>
+              </p>
+              <p className="flex items-center gap-2 text-green-700">
+                <Mail className="h-5 w-5" />
+                Email: <span className="font-medium">{userInfoCard.email}</span>
+              </p>
+            </div>
           </div>
+          <div className="mt-8 flex space-x-4">
+  <button
+    onClick={handleLogout}
+    className="w-full md:w-auto bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors"
+  >
+    <LogOut className="inline-block mr-2 h-5 w-5" />
+    Logout
+  </button>
+  <button
+    onClick={handleDeleteAccount}
+    className="w-full md:w-auto bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors"
+  >
+    <Trash2 className="inline-block mr-2 h-5 w-5" />
+    Delete Account
+  </button>
+</div>
+
         </div>
       </div>
     </div>
