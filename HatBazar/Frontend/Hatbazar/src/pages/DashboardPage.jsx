@@ -13,19 +13,25 @@ const Dashboard = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userInfoCard, setUserInfoCard] = useState(null);
 
-  const fetchUserInfo = async (username) => {
+  const fetchUserInfo = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/dashboard/?username=${username}`, {
+      const token = localStorage.getItem('token'); // Retrieve the token
+      if (!token) {
+        throw new Error('No token found');
+      }
+  
+      const response = await fetch('http://127.0.0.1:8000/dashboard/', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`, // Include the token in the headers
         },
       });
-
+  
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
-
+  
       const data = await response.json();
       return data;
     } catch (error) {
@@ -36,15 +42,20 @@ const Dashboard = () => {
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const userInfo = await fetchUserInfo('hasnain08');
-      setUserInfoCard(userInfo);
+      const userInfo = await fetchUserInfo();
+      if (!userInfo) {
+        window.location.href = '/login';
+      } else {
+        setUserInfoCard(userInfo);
+      }
     };
-
+  
     getUserInfo();
   }, []);
 
   const handleLogout = () => {
-    console.log('Logging out...');
+    localStorage.removeItem('token');
+    window.location.href = '/login';
   };
 
   const handleDeleteAccount = () => {

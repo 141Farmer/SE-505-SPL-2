@@ -7,9 +7,6 @@ class UserCreate(BaseModel):
     phoneNumber: str
     password: str
 
-class UserAdded(BaseModel):
-    msg: str
-
 class UserLogin(BaseModel):
     username: str
     password: str

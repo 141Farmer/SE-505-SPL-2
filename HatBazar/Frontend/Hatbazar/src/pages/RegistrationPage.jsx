@@ -60,10 +60,13 @@ const RegistrationPage = () => {
         });
 
         const data = await response.json();
-        console.log(data.output);
 
         if (!response.ok) {
           throw new Error(data.message || 'Registration failed');
+        }
+
+        if (data.access_token) {
+          localStorage.setItem('token', data.access_token);
         }
 
         navigate('/');
