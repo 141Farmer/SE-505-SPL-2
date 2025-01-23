@@ -11,9 +11,9 @@ const Button = React.forwardRef(({
   const baseStyles = "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
   
   const variants = {
-    default: "bg-violet-600 text-white hover:bg-violet-700",
-    outline: "border border-violet-600 text-violet-600 hover:bg-violet-50",
-    ghost: "hover:bg-violet-50 text-violet-600",
+    default: "bg-green-600 text-white hover:bg-green-700",
+    outline: "border border-green-600 text-green-600 hover:bg-green-50",
+    ghost: "hover:bg-green-50 text-violet-600",
     destructive: "bg-red-600 text-white hover:bg-red-700",
   };
 

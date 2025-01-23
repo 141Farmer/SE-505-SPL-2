@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import SubNavbar from '../../components/SubNavbar/SubNavbar';
 
 function InvestmentCreatePage() {
-  const [currentTab, setCurrentTab] = useState("browse");
+  const [currentTab, setCurrentTab] = useState("create");
   const [offers, setOffers] = useState([]);
  
 
@@ -19,7 +19,7 @@ function InvestmentCreatePage() {
       negotiations: []
     };
     setOffers([offer, ...offers]);
-    setCurrentTab("browse");
+    setCurrentTab("create");
   };
 
   const renderContent = () => {
@@ -28,7 +28,7 @@ function InvestmentCreatePage() {
     }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-green-100 min-h-screen">
       {/* Fixed main navbar at the top */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <Navbar />

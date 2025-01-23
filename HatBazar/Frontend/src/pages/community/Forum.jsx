@@ -72,7 +72,7 @@ function Forum() {
   };
 
   return (
-    <div className="p-8 bg-green-800 min-h-screen">
+    <div className="p-8 bg-green-100 min-h-screen">
       <Navbar />
       <h1 className="text-4xl font-bold text-center text-green-800 mb-6">Community Forum</h1>
       

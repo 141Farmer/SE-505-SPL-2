@@ -6,7 +6,7 @@ import RegistrationPage from "./pages/authentication/RegistrationPage";
 import Dashboard from "./pages/user/DashboardPage";
 import InvestmentPage from "./pages/investment/investmentPage";
 import InvestmentCreatePage from "./pages/investment/InvestmentCreatePage";
-import InvestmentOfferPage from "./pages/investment/InvestmentOfferPage";
+import InvestmentBrowsePage from "./pages/investment/InvestmentBrowsePage";
 import Forum from "./pages/community/Forum";
 import ContractSection from "./components/ContractSection";
 
@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/forum" element={<Forum />} />
         <Route path="/invest" element={<InvestmentPage />} />
         <Route path="/investcreate" element={<InvestmentCreatePage />} />
-        <Route path="/investoffer" element={<InvestmentOfferPage />} />
+        <Route path="/investbrowse" element={<InvestmentBrowsePage />} />
         <Route path="/contract" element={<ContractSection />} />
       </Routes>
     </Router>
