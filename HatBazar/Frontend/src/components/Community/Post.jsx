@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 function ForumPost({ post }) {
+  const [showFullContent, setShowFullContent] = useState(false);
   const [isUpvoted, setIsUpvoted] = useState(false);
   const [isDownvoted, setIsDownvoted] = useState(false);
   const [upvoteCount, setUpvoteCount] = useState(0);
