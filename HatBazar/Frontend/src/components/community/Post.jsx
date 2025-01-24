@@ -48,12 +48,6 @@ function ForumPost({ post }) {
     }
   };
 
-  const toggleContent = () => setShowFullContent(!showFullContent);
-
-  const contentChar = 500;
-  const isContentTruncated = post.content.length > contentChar;
-
-
   const toggleComments = () => setShowComments(!showComments);
 
   const handleAddComment = () => {
@@ -72,19 +66,7 @@ function ForumPost({ post }) {
       </div>
 
       <h2 className="text-2xl font-semibold text-black mb-2">{post.title}</h2>
-      <p className="text-black mb-4">
-        {isContentTruncated && !showFullContent
-        ? post.content.slice(0,contentChar) + '...'
-        : post.content}
-      </p>
-      {isContentTruncated &&(
-        <button 
-          onClick={toggleContent}
-          className='text-blue-600 hover:underline mb-4'
-        >
-          {showFullContent ? 'See Less' : 'See More'}
-        </button>
-      )}
+      <p className="text-black mb-4">{post.content}</p>
       
       {/* Voting Buttons */}
       <div className="flex items-center space-x-4 mt-4">
