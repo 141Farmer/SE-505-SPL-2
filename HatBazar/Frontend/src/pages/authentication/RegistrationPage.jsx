@@ -1,37 +1,89 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, Phone, AlertCircle, Leaf } from 'lucide-react';
+import { Mail, Lock, User, Phone, AlertCircle, Leaf, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Input, Button, Select } from './LoginPage';
+import { Input, Button } from './LoginPage';
+
+// Card component with animated close button
+const Card = ({ children, className = '', onClose }) => (
+  <div className={`bg-white rounded-lg shadow-lg p-6 relative ${className}`}>
+    {onClose && (
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 transition-colors"
+        aria-label="Close"
+      >
+        <X className="h-5 w-5 text-gray-500" />
+      </button>
+    )}
+    {children}
+  </div>
+);
 
 const RegistrationPage = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
       username: '',
-      fullName: '',
-      accountType: '',
+      fullname: '',
       email: '',
       phoneNumber: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     });
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
   
-    const accountTypes = [
-      { value: 'farmer', label: 'Organic Farmer' },
-      { value: 'buyer', label: 'Buyer' },
-      { value: 'investor', label: 'Agricultural Investor' },
-      { value: 'supplier', label: 'Equipment Supplier' }
-    ];
-  
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
       e.preventDefault();
-      console.log('Registration attempt:', formData);
+      setError('');
+      setIsLoading(true);
+
+      if (formData.password !== formData.confirmPassword) {
+        setError('Passwords do not match');
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch('http://127.0.0.1:8000/signup/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            fullname: formData.fullname,
+            email: formData.email,
+            phoneNumber: formData.phoneNumber,
+            password: formData.password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Registration failed');
+        }
+
+        if (data.access_token) {
+          localStorage.setItem('token', data.access_token);
+        }
+
+        navigate('/');
+      } catch (err) {
+        setError(err.message || 'Failed to register. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
     };
   
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-green-100 to-green-50 p-4 py-12">
         <div className="w-full max-w-md">
-          <Card className="backdrop-blur-sm bg-white/90">
+          <Card 
+            className="backdrop-blur-sm bg-white/90"
+            onClose={() => navigate('/')}
+          >
             <div className="text-center mb-6">
               <div className="flex justify-center mb-4">
                 <Leaf className="h-12 w-12 text-green-600" />
@@ -61,22 +113,11 @@ const RegistrationPage = () => {
                   icon={User}
                   type="text"
                   placeholder="Enter your full name"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  value={formData.fullname}
+                  onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
                   required
                 />
               </div>
-  
-              {/* <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Account Type</label>
-                <Select
-                  options={accountTypes}
-                  value={formData.accountType}
-                  onChange={(e) => setFormData({ ...formData, accountType: e.target.value })}
-                  placeholder="Select your role"
-                  required
-                />
-              </div> */}
   
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">Email</label>
@@ -126,7 +167,6 @@ const RegistrationPage = () => {
                 />
               </div>
 
-              {/* Display an error message if passwords don't match */}
               {formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword && (
                   <div className="bg-red-50 text-red-600 p-3 rounded-md flex items-center gap-2">
                       <AlertCircle className="h-4 w-4" />
@@ -142,7 +182,9 @@ const RegistrationPage = () => {
               )}
   
               <div className="space-y-4">
-                <Button type="submit">Create Account</Button>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? 'Creating Account...' : 'Create Account'}
+                </Button>
   
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
@@ -194,4 +236,3 @@ const RegistrationPage = () => {
 };
 
 export default RegistrationPage;
-  

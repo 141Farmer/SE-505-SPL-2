@@ -12,7 +12,7 @@ const MarketPlace = () => {
       id: 1,
       name: "Organic Coffee Beans",
       image: "/api/placeholder/300/200",
-      price: 299.99,
+      price: 29.99,
       rating: 4.5,
       inStock: true,
       stockCount: 150,
@@ -33,7 +33,7 @@ const MarketPlace = () => {
       id: 2,
       name: "Premium Rice Seeds",
       image: "/api/placeholder/300/200",
-      price: 89.99,
+      price: 8.99,
       rating: 4.8,
       inStock: true,
       stockCount: 500,
@@ -54,7 +54,28 @@ const MarketPlace = () => {
       id: 3,
       name: "Organic Fertilizer",
       image: "/api/placeholder/300/200",
-      price: 49.99,
+      price: 4.99,
+      rating: 4.2,
+      inStock: false,
+      stockCount: 0,
+      owner: "EcoGrow Industries",
+      location: "USA",
+      description: "100% organic compound fertilizer for all crops",
+      productionProcedure: [
+        "Composting of organic materials",
+        "Natural fermentation process",
+        "Mineral enrichment",
+        "Temperature controlled aging",
+        "Quality testing for nutrient content"
+      ],
+      certifications: ["USDA Organic", "OMRI Listed"],
+      harvestDate: "2024-03-01"
+    },
+    {
+      id: 4,
+      name: "Organic Fertilizer",
+      image: "/api/placeholder/300/200",
+      price: 4.99,
       rating: 4.2,
       inStock: false,
       stockCount: 0,
@@ -129,7 +150,7 @@ const MarketPlace = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-green-100">
       {/* Include Navbar */}
       <Navbar />
 

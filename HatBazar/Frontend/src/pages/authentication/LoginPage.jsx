@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, Phone, AlertCircle, Leaf } from 'lucide-react';
+import { Mail, Lock, User, Phone, AlertCircle, Leaf, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const Card = ({ children, className = '' }) => (
-  <div className={`bg-white rounded-lg shadow-lg p-6 ${className}`}>
+const Card = ({ children, className = '', onClose }) => (
+  <div className={`bg-white rounded-lg shadow-lg p-6 relative ${className}`}>
+    {onClose && (
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 transition-colors"
+        aria-label="Close"
+      >
+        <X className="h-5 w-5 text-gray-500" />
+      </button>
+    )}
     {children}
   </div>
 );
-
 const Input = ({ icon: Icon, ...props }) => (
   <div className="relative">
     {Icon && <Icon className="absolute left-3 top-3 h-4 w-4 text-green-600" />}
@@ -49,22 +57,72 @@ const Select = ({ options, value, onChange, placeholder }) => (
 
 const LoginPage = () => {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   });
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        if (data.access_token) {
+          localStorage.setItem('token', data.access_token);
+        }
+
+        // Navigate to home page
+        navigate('/');
+      } else {
+        // Handle different types of errors
+        if (data.detail) {
+          setError(Array.isArray(data.detail) 
+            ? data.detail[0]?.msg || 'Login failed'
+            : data.detail);
+        } else if (typeof data === 'string') {
+          setError(data);
+        } else {
+          setError('Invalid username or password');
+        }
+      }
+    } catch (err) {
+      if (err.message === 'Failed to fetch') {
+        setError('Unable to connect to the server. Please check if the server is running.');
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-green-100 to-green-50 p-4">
       <div className="w-full max-w-md">
-        <Card className="backdrop-blur-sm bg-white/90">
+        <Card 
+          className="backdrop-blur-sm bg-white/90"
+          onClose={() => navigate('/')}
+        >
           <div className="text-center mb-6">
             <div className="flex justify-center mb-4">
               <Leaf className="h-12 w-12 text-green-600" />
