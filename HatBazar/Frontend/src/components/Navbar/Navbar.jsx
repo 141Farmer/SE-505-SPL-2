@@ -1,37 +1,29 @@
 import React, { useState } from 'react';
 import { Leaf, Menu, X } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import DesktopMenu from './DesktopMenu';
 import MobileMenu from './MobileMenu';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
 
   const navItems = [
-    { name: 'Market', href: '/marketplace' },
-    { name: 'Invest', href: '#invest' },
-    { name: 'Community', href: '/community' },
-    { name: 'Contract', href: '#contract' },
+    { name: 'Home', path: '/' },
+    { name: 'Market', path: '/marketplace' },
+    { name: 'Invest', path: '/investcreate' },
+    { name: 'Community', path: '/forum' },
+    { name: 'Contract', path: '/contract' },
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  const handleLogoClick = () => {
-    navigate('/');
-  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <button
-          onClick={handleLogoClick}
-          className="flex items-center gap-2 focus:outline-none"
-        >
+        <div className="flex items-center gap-2">
           <Leaf className="w-8 h-8 text-green-700" />
           <span className="text-2xl font-bold text-green-800">Green Harvest</span>
-        </button>
+        </div>
 
         {/* Desktop Menu */}
         <DesktopMenu navItems={navItems} />
@@ -48,7 +40,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <MobileMenu isOpen={isMenuOpen} navItems={navItems} onClose={toggleMenu} />
+      {isMenuOpen && <MobileMenu navItems={navItems} onClose={toggleMenu} />}
     </nav>
   );
 };

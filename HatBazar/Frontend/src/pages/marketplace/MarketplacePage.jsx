@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Star, X, Package, User, Truck, ClipboardList } from 'lucide-react';
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from '../../components/Navbar/Navbar';
 
 const MarketPlace = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
