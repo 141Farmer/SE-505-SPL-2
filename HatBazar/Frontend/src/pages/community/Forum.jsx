@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
-import ForumPost from '../../components/community/Post';
-import SearchBar from '../../components/community/SearchBar';
-import CreatePostButton from '../../components/community/CreatePostButton';
-import Modal from '../../components/community/Modal';
+import ForumPost from '../../components/Community/Post';
+import SearchBar from '../../components/Community/SearchBar';
+import CreatePostButton from '../../components/Community/CreatePostButton';
+import Modal from '../../components/Community/Modal';
 
 function Forum() {
   const [posts, setPosts] = useState([
