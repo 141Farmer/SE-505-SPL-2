@@ -1,7 +1,9 @@
 import React from "react";
+import Navbar from "./Navbar/Navbar";
 
 const ContractSection = () => (
     <section id="contract" className="mt-16 bg-green-100 rounded-xl p-8">
+      <Navbar/>
       <div className="text-center">
         <h2 className="text-3xl font-bold text-green-900 mb-4">Agricultural Contracts</h2>
         <p className="text-green-700 max-w-2xl mx-auto mb-6">
