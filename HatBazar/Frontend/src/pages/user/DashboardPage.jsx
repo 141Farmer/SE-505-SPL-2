@@ -1,213 +1,164 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Leaf, 
-  Package, 
-  Bell, 
-  Star, 
   LogOut, 
   Trash2, 
-  History,
-  FileText,
   ChevronDown,
-  Sprout,
-  Calendar,
-  Sun
+  Phone,
+  Mail,
 } from 'lucide-react';
+import Navbar from '../../components/Navbar/Navbar';
 
 const Dashboard = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [userInfoCard, setUserInfoCard] = useState(null);
 
-  const farmerData = {
-    name: "Sarah Greene",
-    email: "sarah.greene@organicfarms.com",
-    membershipType: "Certified Organic Farmer",
-    orders: [
-      { id: 1, date: "2025-01-08", item: "Organic Seeds - Tomato", status: "Delivered" },
-      { id: 2, date: "2025-01-05", item: "Bio-Fertilizer Pack", status: "In Transit" },
-      { id: 3, date: "2025-01-01", item: "Organic Pest Control", status: "Processing" }
-    ],
-    activeOrders: [
-      { id: 4, date: "2025-01-10", item: "Composting Kit", status: "Processing" },
-      { id: 5, date: "2025-01-09", item: "Soil Testing Kit", status: "In Transit" }
-    ],
-    notifications: [
-      { id: 1, message: "New organic certification workshop next week!", time: "2 hours ago" },
-      { id: 2, message: "Seasonal growing guide updated", time: "1 day ago" }
-    ],
-    cropReviews: [
-      { id: 1, rating: 5, comment: "Excellent yield from organic tomatoes!", date: "2025-01-07" },
-      { id: 2, rating: 4, comment: "Bio-fertilizer improved soil health significantly", date: "2025-01-03" }
-    ],
-    seasonalTips: "Current Season: Winter - Focus on soil preparation and greenhouse cultivation"
+  const fetchUserInfo = async () => {
+    try {
+      const token = localStorage.getItem('token'); // Retrieve the token
+      if (!token) {
+        throw new Error('No token found');
+      }
+  
+      const response = await fetch('http://127.0.0.1:8000/dashboard/', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`, // Include the token in the headers
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Failed to fetch user info:', error);
+      return null;
+    }
   };
 
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const userInfo = await fetchUserInfo();
+      if (!userInfo) {
+        window.location.href = '/login';
+      } else {
+        setUserInfoCard(userInfo);
+      }
+    };
+  
+    getUserInfo();
+  }, []);
+
   const handleLogout = () => {
-    // Add logout logic here
-    console.log("Logging out...");
+    localStorage.removeItem('token');
+    window.location.href = '/login';
   };
 
   const handleDeleteAccount = () => {
-    // Add delete account logic here
-    console.log("Deleting account...");
+    console.log('Deleting account...');
   };
 
+  if (!userInfoCard) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
   return (
-    <div className="min-h-screen bg-green-50 p-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center gap-3">
-            <Leaf className="h-8 w-8 text-green-600" />
-            <h1 className="text-2xl font-bold text-green-800">Organic Farmer Dashboard</h1>
-          </div>
-          
-          {/* Custom Dropdown */}
-          <div className="relative">
-            <button 
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-2 p-2 rounded-lg hover:bg-green-100 focus:outline-none"
-            >
-              <img
-                src="/api/placeholder/32/32"
-                alt="Farmer Profile"
-                className="w-8 h-8 rounded-full border-2 border-green-600"
-              />
-              <ChevronDown size={16} className="text-green-700" />
-            </button>
+    <div className="min-h-screen bg-green-50">
+      {/* Add the Navbar component here */}
+      <Navbar />
+
+      <div className="p-8">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex items-center gap-3">
+              <Leaf className="h-8 w-8 text-green-600" />
+              <h1 className="text-2xl font-bold text-green-800">User Dashboard</h1>
+            </div>
             
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200">
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Logout
-                </button>
-                <button
-                  onClick={handleDeleteAccount}
-                  className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100"
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Delete Account
-                </button>
+            {/* Dropdown */}
+            <div className="relative">
+              <button 
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-green-100 focus:outline-none"
+              >
+                <img
+                  src="/api/placeholder/32/32"
+                  alt="Profile"
+                  className="w-8 h-8 rounded-full border-2 border-green-600"
+                />
+                <ChevronDown size={16} className="text-green-700" />
+              </button>
+              
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200">
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </button>
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100"
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete Account
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Profile Card */}
+          <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
+            <div className="flex items-center gap-4 mb-6">
+              <img
+                src="/api/placeholder/64/64"
+                alt="Profile"
+                className="w-20 h-20 rounded-full border-2 border-green-600"
+              />
+              <div>
+                <h2 className="text-2xl font-semibold text-green-800">{userInfoCard.fullname}</h2>
+                <p className="text-gray-600">{userInfoCard.username}</p>
               </div>
-            )}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <p className="flex items-center gap-2 text-green-700">
+                <Phone className="h-5 w-5" />
+                Phone: <span className="font-medium">{userInfoCard.phone}</span>
+              </p>
+              <p className="flex items-center gap-2 text-green-700">
+                <Mail className="h-5 w-5" />
+                Email: <span className="font-medium">{userInfoCard.email}</span>
+              </p>
+            </div>
           </div>
+          <div className="mt-8 flex space-x-4">
+  <button
+    onClick={handleLogout}
+    className="w-full md:w-auto bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors"
+  >
+    <LogOut className="inline-block mr-2 h-5 w-5" />
+    Logout
+  </button>
+  <button
+    onClick={handleDeleteAccount}
+    className="w-full md:w-auto bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors"
+  >
+    <Trash2 className="inline-block mr-2 h-5 w-5" />
+    Delete Account
+  </button>
+</div>
+
         </div>
-
-        {/* Seasonal Tips Banner */}
-        <div className="bg-green-100 p-4 rounded-lg mb-6 flex items-center gap-3">
-          <Sun className="h-6 w-6 text-green-600" />
-          <p className="text-green-800 font-medium">{farmerData.seasonalTips}</p>
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Profile Card */}
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100 md:col-span-3">
-                <div className="flex items-center gap-4 mb-6">
-                    <img
-                        src="/api/placeholder/64/64"
-                        alt="Farmer Profile"
-                        className="w-20 h-20 rounded-full border-2 border-green-600"
-                    />
-                    <div>
-                        <h2 className="text-2xl font-semibold text-green-800">{farmerData.name}</h2>
-                        <p className="text-gray-600">{farmerData.email}</p>
-                    </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <p className="flex items-center gap-2 text-green-700">
-                        <Sprout className="h-5 w-5" />
-                        Membership Type: <span className="font-medium">{farmerData.membershipType}</span>
-                    </p>
-                    <p className="flex items-center gap-2 text-green-700">
-                        <Calendar className="h-5 w-5" />
-                        Joined Date: <span className="font-medium">2023-03-15</span>
-                    </p>
-                    <p className="flex items-center gap-2 text-green-700">
-                        <FileText className="h-5 w-5" />
-                        Phone: <span className="font-medium">+1 (555) 123-4567</span>
-                    </p>
-                    <p className="flex items-center gap-2 text-green-700">
-                        <FileText className="h-5 w-5" />
-                        Address: <span className="font-medium">123 Green Lane, Farmville, USA</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-          {/* Order History */}
-          <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
-            <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-green-800">
-              <History className="h-5 w-5" />
-              Order History
-            </h2>
-            <div className="space-y-3">
-              {farmerData.orders.map(order => (
-                <div key={order.id} className="flex justify-between items-center text-sm">
-                  <span className="text-green-700">{order.item}</span>
-                  <span className="text-gray-600">{order.status}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Active Orders */}
-          <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
-            <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-green-800">
-              <Package className="h-5 w-5" />
-              Track Orders
-            </h2>
-            <div className="space-y-3">
-              {farmerData.activeOrders.map(order => (
-                <div key={order.id} className="flex justify-between items-center text-sm">
-                  <span className="text-green-700">{order.item}</span>
-                  <span className="text-green-600">{order.status}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Notifications */}
-          <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100">
-            <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-green-800">
-              <Bell className="h-5 w-5" />
-              Farm Updates
-            </h2>
-            <div className="space-y-3">
-              {farmerData.notifications.map(notification => (
-                <div key={notification.id} className="text-sm">
-                  <p className="text-green-700">{notification.message}</p>
-                  <p className="text-gray-600 text-xs">{notification.time}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Reviews and Feedback */}
-          <div className="bg-white p-6 rounded-lg shadow-lg border border-green-100 md:col-span-2">
-            <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-green-800">
-              <Star className="h-5 w-5" />
-              Crop Reviews & Feedback
-            </h2>
-            <div className="space-y-4">
-              {farmerData.cropReviews.map(review => (
-                <div key={review.id} className="border-b border-green-100 pb-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-green-500 text-green-500" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-green-700">{review.comment}</p>
-                  <p className="text-xs text-gray-600 mt-1">{review.date}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>    
+      </div>
+    </div>
   );
 };
 
