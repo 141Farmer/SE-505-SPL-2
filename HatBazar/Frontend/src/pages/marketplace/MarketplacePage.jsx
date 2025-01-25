@@ -11,7 +11,7 @@ const MarketPlace = () => {
     {
       id: 1,
       name: "Organic Coffee Beans",
-      image: "/api/placeholder/300/200",
+      image: "/products/coffee.jpeg",
       price: 29.99,
       rating: 4.5,
       inStock: true,
@@ -32,7 +32,7 @@ const MarketPlace = () => {
     {
       id: 2,
       name: "Premium Rice Seeds",
-      image: "/api/placeholder/300/200",
+      image: "/products/rice.jpeg",
       price: 8.99,
       rating: 4.8,
       inStock: true,
@@ -53,7 +53,7 @@ const MarketPlace = () => {
     {
       id: 3,
       name: "Organic Fertilizer",
-      image: "/api/placeholder/300/200",
+      image: "/products/fertilizer.jpeg",
       price: 4.99,
       rating: 4.2,
       inStock: false,
@@ -74,7 +74,7 @@ const MarketPlace = () => {
     {
       id: 4,
       name: "Organic Fertilizer",
-      image: "/api/placeholder/300/200",
+      image: "/products/fertilizer.jpeg",
       price: 4.99,
       rating: 4.2,
       inStock: false,

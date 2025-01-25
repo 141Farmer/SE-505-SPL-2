@@ -8,14 +8,6 @@ import Modal from '../../components/Community/Modal';
 function Forum() {
   const [posts, setPosts] = useState([
     { 
-      id: 1, 
-      user: 'kamrul',
-      date: '11/01/2025',
-      title: 'Best Fertilizers for Organic Farming', 
-      content: 'Here are some recommendations on the best fertilizers for organic farming...',
-      comments: ['Great post! Very informative.', 'I agree with these suggestions.']
-    },
-    { 
       id: 2, 
       user: 'kibria',
       date: '11/01/2025',
