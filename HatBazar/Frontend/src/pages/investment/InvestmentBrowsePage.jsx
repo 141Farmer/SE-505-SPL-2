@@ -145,7 +145,8 @@ function InvestmentBrowsePage() {
       <div className="fixed top-16 left-0 right-0 z-40 bg-white shadow-sm">
         <SubNavbar currentTab={currentTab} onTabChange={setCurrentTab} />
       </div>
-      <div className="pt-32 px-4">
+      
+      <div className="container mx-auto px-15 pt-40">
         <div className="max-w-7xl mx-auto">
           {currentTab === 'browse' && renderOffers()}
         </div>

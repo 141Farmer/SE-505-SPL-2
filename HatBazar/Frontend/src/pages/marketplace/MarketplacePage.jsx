@@ -155,7 +155,7 @@ const MarketPlace = () => {
       <Navbar />
 
       {/* Page Content */}
-      <div className="container mx-auto px-4 pt-20">
+      <div className="container mx-auto px-6 pt-20">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Agricultural Products</h1>
         
         {/* Product Grid */}
